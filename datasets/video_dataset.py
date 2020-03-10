@@ -54,6 +54,15 @@ class VideoDataset(torch.utils.data.Dataset):
                 video = [TF.hflip(im) for im in video]
 
             #    transforms.ColorJitter(brightness=0.4, contrast=0.4, saturation=0.4, hue=0),
+            # Rotation
+            angles = [-12, -6, 0, 6, 12]
+            angle = random.choice(angles)
+            video = [TF.rotate(im, angle) for im in video]
+
+
+            #rotation_transform = MyRotationTransform()
+            hue_factor = random.uniform(-0.2,0.2)
+            video = [TF.adjust_hue(im, hue_factor) for im in video]
         else:
             resize = transforms.Resize(size=(self.crop_size, self.crop_size))
             video = [resize(im) for im in video]
