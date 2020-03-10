@@ -15,10 +15,10 @@ The project is structured as following:
 .
 ├── datasets
 |   └── dataset selector
-|   └── video_dataset.py # loading and pre-processing gtsrb data
+|   └── video_dataset.py # creating a PyTorch video dataset 
 ├── models
 |   └── architecture selector
-|   └── resnet_rnn.py # highly compressed CNN
+|   └── resnet_rnn.py # CNN with a following RNN
 ├── nbs
 |   └── 00_video_dataset.ipynb # notebook used to create the dataset script
 |   └── 01_model.ipynb # notebook used to create the resnet_rnn script
