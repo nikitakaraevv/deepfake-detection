@@ -33,6 +33,8 @@ use_cuda = torch.cuda.is_available()                   # check if GPU exists
 device = torch.device("cuda" if use_cuda else "cpu")
 
 cnn_encoder, rnn_decoder = get_model(args)
+cnn_encoder.to(device)
+rnn_decoder.to(device)
 
 print("Using", torch.cuda.device_count(), "GPU!")
 # Combine all EncoderCNN + DecoderRNN parameters
