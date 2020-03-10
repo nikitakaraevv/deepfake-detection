@@ -13,12 +13,18 @@ from models  import get_model
 from sklearn.metrics import accuracy_score
 import torch
 import os
+from args import parse_args
+import torch.nn.functional as F
 #from torch.utils.tensorboard import SummaryWriter
 
-train_loader = torch.utils.data.DataLoader(ds(csv_file=args.root_dir/args.csv_file, root_dir=args.root_dir, split='train',
+args = parse_args()
+
+ds = get_dataset(args)
+
+train_loader = torch.utils.data.DataLoader(ds(csv_file=os.path.join(args.root_dir,args.csv_file), root_dir=args.root_dir, split='train',
         phase='train', crop_size=args.crop_size),
         batch_size=args.batch_size, shuffle=False, num_workers=args.workers, pin_memory=True)
-val_loader = torch.utils.data.DataLoader(ds(csv_file=args.root_dir/args.csv_file, root_dir=args.root_dir, split='test',
+val_loader = torch.utils.data.DataLoader(ds(csv_file=os.path.join(args.root_dir,args.csv_file), root_dir=args.root_dir, split='test',
         phase='test', crop_size=args.crop_size), batch_size=args.batch_size,
         shuffle=False, num_workers=args.workers, pin_memory=True)
 
@@ -70,11 +76,10 @@ for epoch in range(args.epochs):
         optimizer.step()
 
         # show information
-        if (batch_idx + 1) % log_interval == 0:
+        if (batch_idx + 1) % args.log_interval == 0:
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}, Accu: {:.2f}%'.format(
                 epoch + 1, N_count, len(train_loader.dataset), 100. * (batch_idx + 1) / len(train_loader), loss.item(), 100 * step_score))
 
-    save_model_path=''
     cnn_encoder.eval()
     rnn_decoder.eval()
 
@@ -114,14 +119,10 @@ for epoch in range(args.epochs):
     epoch_test_scores.append(epoch_test_score)
 
     # save all train test results
-    A = np.array(epoch_train_losses)
-    B = np.array(epoch_train_scores)
-    C = np.array(epoch_test_losses)
-    D = np.array(epoch_test_scores)
-    np.save(os.path.join(args.save_model_path, './epoch_training_losses.npy'), A)
-    np.save(os.path.join(args.save_model_path, './epoch_training_scores.npy', B))
-    np.save(os.path.join(args.save_model_path, './epoch_test_loss.npy', C))
-    np.save(os.path.join(args.save_model_path, './epoch_test_score.npy', D))
+    np.save(os.path.join(args.save_model_path, './epoch_training_losses.npy'), np.array(epoch_train_losses))
+    np.save(os.path.join(args.save_model_path, './epoch_training_scores.npy', np.array(epoch_train_scores)))
+    np.save(os.path.join(args.save_model_path, './epoch_test_loss.npy', np.array(epoch_test_losses)))
+    np.save(os.path.join(args.save_model_path, './epoch_test_score.npy', np.array(epoch_test_scores)))
 
     # save Pytorch models of best record
     torch.save(cnn_encoder.state_dict(), os.path.join(args.save_model_path, 'cnn_encoder_epoch{}.pth'.format(epoch + 1)))  # save spatial_encoder

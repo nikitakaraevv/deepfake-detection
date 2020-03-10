@@ -11,7 +11,7 @@ def parse_args():
     # name of the experiment
     parser.add_argument('--dataset', default='video', type=str,
                         help='name of dataset to train upon')
-    parser.add_argument('--root_dir', default=Path('../filtered_ds/'), type=Path,
+    parser.add_argument('--root_dir', default='../filtered_ds/', type=str,
                             help='name of dataset to train upon')
     parser.add_argument('--csv_file', default='videos_df', type=str,
                             help='name of dataset to train upon')
@@ -39,9 +39,6 @@ def parse_args():
                             help='name of dataset to train upon')
     parser.add_argument('--save_model_path', default='./checkpoints/', type=str,
                             help='name of dataset to train upon')
-
-
-
 
 
     args = parser.parse_args()
