@@ -54,17 +54,6 @@ epoch_test_scores = []
 for epoch in range(args.epochs):
     # save all train test results
 
-    np.save(os.path.join(args.save_model_path, 'epoch_training_losses.npy'), np.array(epoch_train_losses))
-    np.save(os.path.join(args.save_model_path, 'epoch_training_scores.npy'), np.array(epoch_train_scores))
-    np.save(os.path.join(args.save_model_path, 'epoch_test_loss.npy'), np.array(epoch_test_losses))
-    np.save(os.path.join(args.save_model_path, 'epoch_test_score.npy'), np.array(epoch_test_scores))
-
-    # save Pytorch models of best record
-    torch.save(cnn_encoder.state_dict(), os.path.join(args.save_model_path, 'cnn_encoder_epoch{}.pth'.format(epoch + 1)))  # save spatial_encoder
-    torch.save(rnn_decoder.state_dict(), os.path.join(args.save_model_path, 'rnn_decoder_epoch{}.pth'.format(epoch + 1)))  # save motion_encoder
-    torch.save(optimizer.state_dict(), os.path.join(args.save_model_path, 'optimizer_epoch{}.pth'.format(epoch + 1)))      # save optimizer
-    print("Epoch {} model saved!".format(epoch + 1))
-
     cnn_encoder.train()
     rnn_decoder.train()
 
@@ -135,10 +124,10 @@ for epoch in range(args.epochs):
     epoch_test_scores.append(epoch_test_score)
 
     # save all train test results
-    np.save(os.path.join(args.save_model_path, './epoch_training_losses.npy'), np.array(epoch_train_losses))
-    np.save(os.path.join(args.save_model_path, './epoch_training_scores.npy', np.array(epoch_train_scores)))
-    np.save(os.path.join(args.save_model_path, './epoch_test_loss.npy', np.array(epoch_test_losses)))
-    np.save(os.path.join(args.save_model_path, './epoch_test_score.npy', np.array(epoch_test_scores)))
+    np.save(os.path.join(args.save_model_path, 'epoch_training_losses.npy'), np.array(epoch_train_losses))
+    np.save(os.path.join(args.save_model_path, 'epoch_training_scores.npy'), np.array(epoch_train_scores))
+    np.save(os.path.join(args.save_model_path, 'epoch_test_loss.npy'), np.array(epoch_test_losses))
+    np.save(os.path.join(args.save_model_path, 'epoch_test_score.npy'), np.array(epoch_test_scores))
 
     # save Pytorch models of best record
     torch.save(cnn_encoder.state_dict(), os.path.join(args.save_model_path, 'cnn_encoder_epoch{}.pth'.format(epoch + 1)))  # save spatial_encoder
