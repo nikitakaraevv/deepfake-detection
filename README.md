@@ -1,5 +1,10 @@
 # deepfake-detection
 
+
+## Data
+Original deepfake dataset consists of 50 folders with ~3000 videos per folder with a `metadata.json` file with labels for every video. Classes are imbalanced: 80% of videos are fake and 20% are real. You can find more information about the dataset on the [webpage](https://www.kaggle.com/c/deepfake-detection-challenge/data) of the challenge.
+
+
 ## Project structure
 
 The project is structured as following:
