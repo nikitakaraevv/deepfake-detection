@@ -41,7 +41,7 @@ class VideoDataset(torch.utils.data.Dataset):
         if not self.transform: return video
         if 'train' == self.phase:
             # Resize
-            resize = transforms.Resize(size=(self.crop_size+100, self.crop_size+100))
+            resize = transforms.Resize(size=(self.crop_size+20, self.crop_size+20))
             video = [resize(im) for im in video]
 
             # Random crop
